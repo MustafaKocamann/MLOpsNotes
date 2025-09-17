@@ -1,0 +1,34 @@
+stages:
+  data_download:
+    cmd: python 1_veri_indirme.py
+    deps:
+      - 1_veri_indirme.py
+    outs:
+      - data/raw/titanic_original.csv
+
+  data_clean:
+    cmd: python 2_veri_temizleme.py
+    deps:
+      - 2_veri_temizleme.py
+      - data/raw/titanic_original.csv
+    outs:
+      - data/processed/titanic_clean.csv
+
+  feature_engineering:
+    cmd: python 3_feature_engineering.py
+    deps:
+      - 3_feature_engineering.py
+      - data/processed/titanic_clean.csv
+    outs:
+      - data/processed/titanic_features.csv
+
+  analysis:
+    cmd: python 4_analiz.py
+    deps:
+      - 4_analiz.py
+      - data/processed/titanic_features.csv
+    outs:
+      - results/hayatta_kalma_analizi.png
+      - results/yas_dagilimi.png
+    metrics:
+      - results/metrics.json

@@ -1,0 +1,66 @@
+schema: '2.0'
+stages:
+  data_download:
+    cmd: python 1_veri_indirme.py
+    deps:
+    - path: 1_veri_indirme.py
+      hash: md5
+      md5: f181e6083da7bc2aec3bdee503c38e99
+      size: 962
+    outs:
+    - path: data/raw/titanic_original.csv
+      hash: md5
+      md5: 56f29cc0b807cb970a914ed075227f94
+      size: 57018
+  data_clean:
+    cmd: python 2_veri_temizleme.py
+    deps:
+    - path: 2_veri_temizleme.py
+      hash: md5
+      md5: 67d41fddee6a3dae70b2e4e53e4b0be7
+      size: 1721
+    - path: data/raw/titanic_original.csv
+      hash: md5
+      md5: 56f29cc0b807cb970a914ed075227f94
+      size: 57018
+    outs:
+    - path: data/processed/titanic_clean.csv
+      hash: md5
+      md5: 05404f06d4c6c160a2a77691a88a7c0d
+      size: 56629
+  feature_engineering:
+    cmd: python 3_feature_engineering.py
+    deps:
+    - path: 3_feature_engineering.py
+      hash: md5
+      md5: 41b5db6dcc2ebebec33a6f2b798fe598
+      size: 2159
+    - path: data/processed/titanic_clean.csv
+      hash: md5
+      md5: 05404f06d4c6c160a2a77691a88a7c0d
+      size: 56629
+    outs:
+    - path: data/processed/titanic_features.csv
+      hash: md5
+      md5: 349a3c1ed196a94399bea99c454b8148
+      size: 70636
+  analysis:
+    cmd: python 4_analiz.py
+    deps:
+    - path: 4_analiz.py
+      hash: md5
+      md5: 674d39e9bea53b8f00ed738c8bf2c41b
+      size: 4014
+    - path: data/processed/titanic_features.csv
+      hash: md5
+      md5: 349a3c1ed196a94399bea99c454b8148
+      size: 70636
+    outs:
+    - path: results/hayatta_kalma_analizi.png
+      hash: md5
+      md5: fcd48e834458a2d43e74e49223fa544a
+      size: 224391
+    - path: results/yas_dagilimi.png
+      hash: md5
+      md5: c14b3b3866f17e45d489a5709e073d73
+      size: 84755
